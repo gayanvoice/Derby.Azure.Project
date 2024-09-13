@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Derby.DigitalTwins.ClassLibrary\Derby.DigitalTwins.ClassLibrary.csproj" />
+    <ProjectReference Include="..\Derby.Subscription.ClassLibrary\Derby.Subscription.ClassLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>
