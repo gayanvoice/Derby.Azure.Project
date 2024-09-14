@@ -7,12 +7,12 @@ namespace Derby.Subscription.ClassLibrary
 {
     //https://learn.microsoft.com/en-us/dotnet/api/overview/azure/resourcemanager-readme?view=azure-dotnet
 
-    public class ResourceManager
+    public class SubscriptionResourceManager
     {
         private string _tenentId;
-        public ResourceManager(string tenentId)
+        public SubscriptionResourceManager(string tenentId)
         {
-            _tenentId = "5ecda7e7-179b-4603-85f3-302815e102fe";
+            _tenentId = tenentId;
         }
 
         private async Task<SubscriptionResource> GetSubscriptionResourceAsync()
@@ -45,9 +45,9 @@ namespace Derby.Subscription.ClassLibrary
                 $"Location: {resourceGroupResource.Data.Location}");
             return resourceGroupResource;
         }
-        public async Task<ResourceGroupCollection> GetAllResourceGroupCollectionAsync()
+        public async Task<ResourceGroupCollection> GetResourceGroupCollectionAsync()
         {
-            Console.WriteLine($"Getting All Resource Group Collection");
+            Console.WriteLine($"Getting Resource Group Collection");
             SubscriptionResource subscriptionResource = await GetSubscriptionResourceAsync();
             ResourceGroupCollection resourceGroupCollection = subscriptionResource.GetResourceGroups();
             await foreach (ResourceGroupResource resourceGroupResource in resourceGroupCollection)
