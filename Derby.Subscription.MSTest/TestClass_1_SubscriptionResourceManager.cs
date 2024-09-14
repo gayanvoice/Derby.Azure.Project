@@ -28,7 +28,7 @@ namespace Derby.Subscription.MSTest
         public async Task TestMethod_2_CheckIfResourceGroupCollectionExistsAsync()
         {
             bool resourceGroupCollectionExists = await _subscriptionResourceManager.CheckIfResourceGroupCollectionExistsAsync(_resourceGroupName);
-            Assert.IsFalse(resourceGroupCollectionExists);
+            Assert.IsTrue(resourceGroupCollectionExists);
         }
         [TestMethod]
         [DataRow(DisplayName = "Test Method 3 - Get Resource Group Resource Async")]
