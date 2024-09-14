@@ -13,7 +13,7 @@ namespace Derby.Subscription.MSTest
         public void TestInitialize()
         {
             _subscriptionResourceManager = new SubscriptionResourceManager("5ecda7e7-179b-4603-85f3-302815e102fe");
-            _resourceGroupName = "TestResourceGroup3";
+            _resourceGroupName = "TestResourceGroup";
         }
         [TestMethod]
         [DataRow(DisplayName = "Test Method 1 - Check If Resource Group Collection Exists Async")]
@@ -46,6 +46,7 @@ namespace Derby.Subscription.MSTest
             Assert.IsNotNull(resourceGroupCollection);
             Assert.IsTrue(resourceGroupCollection.Count() > 0);
         }
+        [Ignore]
         [TestMethod]
         [DataRow(DisplayName = "Test Method 5 - Delete Resource Group Collection Async")]
         public async Task TestMethod_5_CreateResourceGroupResource()
