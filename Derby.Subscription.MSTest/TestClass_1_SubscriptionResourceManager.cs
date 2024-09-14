@@ -16,19 +16,19 @@ namespace Derby.Subscription.MSTest
             _resourceGroupName = "TestResourceGroup";
         }
         [TestMethod]
-        [DataRow(DisplayName = "Test Method 1 - Check If Resource Group Collection Exists Async")]
-        public async Task TestMethod_1_CheckIfResourceGroupCollectionExistsAsync()
-        {
-            bool resourceGroupCollectionExists = await _subscriptionResourceManager.CheckIfResourceGroupCollectionExistsAsync(_resourceGroupName);
-            Assert.IsFalse(resourceGroupCollectionExists);
-        }
-        [TestMethod]
-        [DataRow(DisplayName = "Test Method 2 - Create Resource Group Resource Async")]
-        public async Task TestMethod_2_CreateResourceGroupResourceAsync()
+        [DataRow(DisplayName = "Test Method 1 - Create Resource Group Resource Async")]
+        public async Task TestMethod_1_CreateResourceGroupResourceAsync()
         {
             ResourceGroupResource resourceGroupResource = await _subscriptionResourceManager.CreateResourceGroupResourceAsync(_resourceGroupName);
             Assert.IsNotNull(resourceGroupResource);
             Assert.AreEqual(_resourceGroupName, resourceGroupResource.Data.Name);
+        }
+        [TestMethod]
+        [DataRow(DisplayName = "Test Method 2 - Check If Resource Group Collection Exists Async")]
+        public async Task TestMethod_2_CheckIfResourceGroupCollectionExistsAsync()
+        {
+            bool resourceGroupCollectionExists = await _subscriptionResourceManager.CheckIfResourceGroupCollectionExistsAsync(_resourceGroupName);
+            Assert.IsFalse(resourceGroupCollectionExists);
         }
         [TestMethod]
         [DataRow(DisplayName = "Test Method 3 - Get Resource Group Resource Async")]
