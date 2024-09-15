@@ -4,6 +4,8 @@ using Azure.ResourceManager.Resources;
 using Derby.Subscription.ClassLibrary;
 using Azure.Core;
 using Azure.ResourceManager;
+using Azure.Identity;
+using Azure.DigitalTwins.Core;
 
 namespace Derby.DigitalTwins.ClassLibrary
 {
@@ -46,6 +48,17 @@ namespace Derby.DigitalTwins.ClassLibrary
                 $"Provisioning State: {digitalTwinsDescriptionResource.Data.ProvisioningState}");
             return digitalTwinsDescriptionResource;
         }
+        public async Task<DigitalTwinsClient> GetDigitalTwinsClientAsync(string digitalTwinsResourceName)
+        {
+            Console.WriteLine($"Getting Digital Twins Client");
+            DigitalTwinsDescriptionResource digitalTwinsDescriptionResource = await GetDigitalTwinsDescriptionResourceAsync(digitalTwinsResourceName);
+            Uri digitalTwinsUri = new UriBuilder(Uri.UriSchemeHttps, digitalTwinsDescriptionResource.Data.HostName).Uri;
+            DefaultAzureCredential defaultAzureCredential = new DefaultAzureCredential();
+            DigitalTwinsClient digitalTwinsClient = new DigitalTwinsClient(new Uri(digitalTwinsUri.ToString()), defaultAzureCredential);
+            Console.WriteLine($"Name: {digitalTwinsDescriptionResource.Data.Name} Digital Twins URL: {digitalTwinsUri}");
+            return digitalTwinsClient;
+        }
+
         public async Task<DigitalTwinsDescriptionResource> CreateDigitalTwinsDescriptionResourceAsync(string digitalTwinsResourceName)
         {
             Console.WriteLine($"Creating Digital Twins Description Resource");

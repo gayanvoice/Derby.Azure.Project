@@ -1,6 +1,6 @@
 {
   "@context": "dtmi:dtdl:context;2",
-  "@id": "dtmi:dtdl:context:childModel;2",
+  "@id": "dtmi:dtdl:context:childModel;1",
   "@type": "Interface",
   "comment": "you can add parent components into \"contents\": []",
   "description": "the child model in inheritence",
