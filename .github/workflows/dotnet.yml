@@ -42,5 +42,11 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Test -> Derby.Subscription -> SubscriptionResourceManager
+      run: dotnet test --no-build --filter ClassName=Derby.Subscription.MSTest.TestClass_A_SubscriptionResourceManager --verbosity normal --logger:"console;verbosity=detailed"
+    - name: Test -> Derby.IotHub -> IotHubResourceManager
+      run: dotnet test --no-build --filter ClassName=Derby.IotHub.MSTest.TestClass_A_IotHubResourceManager --verbosity normal --logger:"console;verbosity=detailed"
+    - name: Test -> Derby.DigitalTwins -> DigitalTwinsResourceManager
+      run: dotnet test --no-build --filter ClassName=Derby.DigitalTwins.MSTest.TestClass_A_DigitalTwinsResourceManager --verbosity normal --logger:"console;verbosity=detailed"
+    - name: Test -> Derby.DigitalTwins -> ModelManager
+      run: dotnet test --no-build --filter ClassName=Derby.DigitalTwins.MSTest.TestClass_B_ModelManager --verbosity normal --logger:"console;verbosity=detailed"
