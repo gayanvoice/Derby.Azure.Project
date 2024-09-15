@@ -1,10 +1,7 @@
 ﻿using Azure;
 using Azure.DigitalTwins.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DTDLParser;
+using DTDLParser.Models;
 
 namespace Derby.DigitalTwins.ClassLibrary
 {
@@ -28,13 +25,12 @@ namespace Derby.DigitalTwins.ClassLibrary
             }
             return digitalTwinsModelDataArray.First();
         }
-
         public async Task<DigitalTwinsModelData> GetDtdlModel(string modelId)
         {
             DigitalTwinsClient digitalTwinsClient = await _digitalTwinsResourceManager.GetDigitalTwinsClientAsync(_digitalTwinsResourceName);
             Response<DigitalTwinsModelData> digitalTwinsModelDataResponse = await digitalTwinsClient.GetModelAsync(modelId);
             DigitalTwinsModelData digitalTwinsModelData = digitalTwinsModelDataResponse.Value;
-            Console.WriteLine($"Id: {digitalTwinsModelData.Id}");
+            Console.WriteLine($"Id: {digitalTwinsModelData.Id} Dtdl Model: {digitalTwinsModelData.DtdlModel}");
             return digitalTwinsModelData;
         }
         public async Task<Response> DeleteDtdlModel(string modelId)
