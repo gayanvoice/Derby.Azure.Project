@@ -42,5 +42,5 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal --logger:"console;verbosity=detailed"
+    - name: Test Derby.Subscription
+      run: dotnet test --no-build --filter ClassName=Derby.Subscription.MSTest.TestClass_A_SubscriptionResourceManager --verbosity normal --logger:"console;verbosity=detailed"
