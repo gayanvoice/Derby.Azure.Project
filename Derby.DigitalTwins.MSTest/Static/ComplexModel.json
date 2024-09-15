@@ -1,0 +1,136 @@
+{
+  "@context": "dtmi:dtdl:context;2",
+  "@type": "Interface",
+  "@id": "dtmi:dtdl:context:complexModel;1",
+  "comment": "has complex schema types such as Array, Enum, Map, and Object or primitive schema types",
+  "description": "to create a digital twin with complex schema",
+  "displayName": "Complex Model",
+  "contents": [
+    {
+      "@type": "Telemetry",
+      "@id": "dtmi:dtdl:context:complexModel:ArrayTelemetry;1",
+      "comment": "an Array format with primitive schema types",
+      "description": "to store a Array value",
+      "displayName": "Array telemetry",
+      "name": "ArrayTelemetry",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "boolean"
+      }
+    },
+    {
+      "@type": "Property",
+      "@id": "dtmi:dtdl:context:complexModel:EnumProperty;1",
+      "comment": "an Enum data type with primitive schema types",
+      "description": "to store Enum",
+      "displayName": "Enum Property",
+      "name": "EnumProperty",
+      "schema": {
+        "@type": "Enum",
+        "@id": "dtmi:dtdl:context:complexModel:EnumProperty:Enum;1",
+        "comment": "a data type with named variables to map primitive schema types",
+        "description": "to store EnumValue",
+        "displayName": "Enum Value",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "@type": "EnumValue",
+            "@id": "dtmi:dtdl:context:complexModel:EnumProperty:Enum:EnumValue1;1",
+            "comment": "a predefined Enum of A",
+            "description": "EnumValue A with Value 1",
+            "name": "enumA",
+            "displayName": "Enum A",
+            "enumValue": 1
+          },
+          {
+            "@type": "EnumValue",
+            "@id": "dtmi:dtdl:context:complexModel:EnumProperty:Enum:EnumValue2;1",
+            "comment": "a predefined Enum of B",
+            "description": "EnumValue B with Value 2",
+            "name": "enumB",
+            "displayName": "Enum B",
+            "enumValue": 2
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Property",
+      "@id": "dtmi:dtdl:context:complexModel:MapProperty;1",
+      "comment": "a Map data type of key-value pairs with primitive schema types",
+      "description": "to store a Map of key-value pairs",
+      "displayName": "Map Property",
+      "name": "MapProperty",
+      "writable": true,
+      "schema": {
+        "@type": "Map",
+        "@id": "dtmi:dtdl:context:complexModel:MapProperty:Map;1",
+        "comment": "a Map element",
+        "description": "to store key-value pairs with primitive schema types",
+        "displayName": "Map",
+        "mapKey": {
+          "@type": "MapKey",
+          "@id": "dtmi:dtdl:context:complexModel:MapProperty:Map:MapKey;1",
+          "comment": "a Map Key is string",
+          "description": "to store keys of the map",
+          "displayName": "Map Key",
+          "name": "MapKey",
+          "schema": "string"
+        },
+        "mapValue": {
+          "@type": "MapValue",
+          "@id": "dtmi:dtdl:context:complexModel:MapProperty:Map:MapValue;1",
+          "comment": "a Map Value is primitive schema type",
+          "description": "to store values of the map",
+          "displayName": "Map Value",
+          "name": "MapValue",
+          "schema": "string"
+        }
+      }
+    },
+    {
+      "@type": "Property",
+      "@id": "dtmi:dtdl:context:complexModel:ObjectProperty;1",
+      "comment": "an Object describes a data type of named fields with complex or primitive schema types",
+      "description": "to store an Object",
+      "displayName": "Object Property",
+      "name": "ObjectProperty",
+      "writable": true,
+      "schema": {
+        "@type": "Object",
+        "@id": "dtmi:dtdl:context:complexModel:ObjectProperty:Object;1",
+        "comment": "an Object instance",
+        "description": "to store an Object",
+        "fields": [
+          {
+            "@type": "Field",
+            "@id": "dtmi:dtdl:context:complexModel:ObjectProperty:Object:Field1;1",
+            "comment": "an Field instance",
+            "description": "to store a primitive data type",
+            "name": "Field1",
+            "displayName": "Field 1",
+            "schema": "double"
+          },
+          {
+            "@type": "Field",
+            "@id": "dtmi:dtdl:context:complexModel:ObjectProperty:Object:Field2;1",
+            "comment": "an Field instance",
+            "description": "to store a primitive data type",
+            "name": "Field2",
+            "displayName": "Field 2",
+            "schema": "double"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "@id": "dtmi:dtdl:context:complexModel:GeospatialTelemetry;1",
+      "comment": "an Geospatial schema",
+      "description": "to store a Geospatial schema",
+      "displayName": "Geospatial Telemetry",
+      "name": "GeospatialTelemetry",
+      "schema": "point"
+    }
+  ]
+}

@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Derby.DigitalTwins.MSTest",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Derby.Authorization.ClassLibrary", "Derby.Authorization.ClassLibrary\Derby.Authorization.ClassLibrary.csproj", "{A0168BC7-FE4D-433C-9F66-A0CEE5D000E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Derby.IotHub.MSTest", "Derby.IotHub.MSTest\Derby.IotHub.MSTest.csproj", "{032C3C1B-30DF-48E5-ADA3-894BF09F4E21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Derby.IotHub.MSTest", "Derby.IotHub.MSTest\Derby.IotHub.MSTest.csproj", "{032C3C1B-30DF-48E5-ADA3-894BF09F4E21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

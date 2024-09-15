@@ -1,0 +1,110 @@
+{
+  "@context": "dtmi:dtdl:context;2",
+  "@type": "Interface",
+  "@id": "dtmi:dtdl:context:primitiveModel;1",
+  "comment":  "has primitive schema types such as boolean, date, dateTime, double, duration, float, integer, long, string, and time",
+  "description":  "to create a digital twin with primitive schema",
+  "displayName": "Primitive Model",
+  "contents": [
+    {
+      "@type": "Property",
+      "@id": "dtmi:dtdl:context:primitiveModel:booleanProperty;1",
+      "comment": "a primitive boolean format",
+      "description": "to store a boolean value",
+      "displayName": "boolean property",
+      "name": "booleanProperty",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "@id": "dtmi:dtdl:context:primitiveModel:dateProperty;1",
+      "comment": "a primitive date in ISO 8601 format follows the pattern yyyy-mm-dd",
+      "description": "to store a date value",
+      "displayName": "date property",
+      "name": "dateProperty",
+      "schema": "date",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "@id": "dtmi:dtdl:context:primitiveModel:dateTimeProperty;1",
+      "comment": "a primitive dateTime in ISO 8601 format follows the pattern yyyy-mm-ddThh:mm:ss",
+      "description": "to store a dateTime value",
+      "displayName": "dateTime property",
+      "name": "dateTimeProperty",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "@id": "dtmi:dtdl:context:primitiveModel:doubleProperty;1",
+      "comment": "a primitive double in IEEE 754 double-precision floating point format range from ±5.0 × 10^−324 to ±1.8 × 10^308",
+      "description": "to store a double value",
+      "displayName": "double property",
+      "name": "doubleProperty",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "@id": "dtmi:dtdl:context:primitiveModel:durationProperty;1",
+      "comment": "a primitive duration in ISO 8601 format follows the pattern PnYnMnDTnHnMnS",
+      "description": "to store a duration value",
+      "displayName": "duration property",
+      "name": "durationProperty",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "@id": "dtmi:dtdl:context:primitiveModel:floatProperty;1",
+      "comment": "a primitive float in IEEE 754 single-precision floating point format range from ±1.4 × 10^−45 to ±3.4 × 10^38",
+      "description": "to store a float value",
+      "displayName": "float property",
+      "name": "floatProperty",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "@id": "dtmi:dtdl:context:primitiveModel:integerProperty;1",
+      "comment": "a primitive signed integeral numeric value in 4 bytes range from -2,147,483,648 to 2,147,483,647",
+      "description": "to store a integer value",
+      "displayName": "integer property",
+      "name": "integerProperty",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "@id": "dtmi:dtdl:context:primitiveModel:longProperty;1",
+      "comment": "a primitive signed integeral numeric value in 8 bytes range from -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807",
+      "description": "to store a long value",
+      "displayName": "long property",
+      "name": "longProperty",
+      "schema": "long",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "@id": "dtmi:dtdl:context:primitiveModel:stringProperty;1",
+      "comment": "a primitive string in UTF-8 format",
+      "description": "to store a string value",
+      "displayName": "string property",
+      "name": "stringProperty",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "@id": "dtmi:dtdl:context:primitiveModel:timeProperty;1",
+      "comment": "a primitive time in ISO 8601 format follows the pattern hh:mm:ss",
+      "description": "to store a yime value",
+      "displayName": "time property",
+      "name": "timeProperty",
+      "schema": "time",
+      "writable": true
+    }
+  ]
+}
