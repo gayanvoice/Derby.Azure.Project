@@ -15,7 +15,7 @@ namespace Derby.Subscription.ClassLibrary
             _tenentId = tenentId;
         }
 
-        private async Task<SubscriptionResource> GetSubscriptionResourceAsync()
+        public async Task<SubscriptionResource> GetSubscriptionResourceAsync()
         {
             Console.WriteLine($"Getting Subscription Resource");
             DefaultAzureCredential defaultAzureCredential = new DefaultAzureCredential(new DefaultAzureCredentialOptions() { TenantId = _tenentId });

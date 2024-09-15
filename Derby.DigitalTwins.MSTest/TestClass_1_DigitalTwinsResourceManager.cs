@@ -19,16 +19,16 @@ namespace Derby.DigitalTwins.MSTest
             _digitalTwinsResourceName = "TestAzureDigitalTwinsInstance";
         }
         [TestMethod]
-        [DataRow(DisplayName = "Test Method 1 - Create Digital Twins Description Resource Async")]
-        public async Task TestMethod_1_CreateDigitalTwinsDescriptionResourceAsync()
+        [DataRow(DisplayName = "Test Method A - Create Digital Twins Description Resource Async")]
+        public async Task TestMethod_A_CreateDigitalTwinsDescriptionResourceAsync()
         {
             DigitalTwinsDescriptionResource digitalTwinsDescriptionResource = await _digitalTwinsResourceManager.CreateDigitalTwinsDescriptionResourceAsync(_digitalTwinsResourceName);
             Assert.IsNotNull(digitalTwinsDescriptionResource);
             Assert.AreEqual(digitalTwinsDescriptionResource.Data.Name, _digitalTwinsResourceName);
         }
         [TestMethod]
-        [DataRow(DisplayName = "Test Method 2 - Create Role Assignment Async")]
-        public async Task TestMethod_2_CreateRoleAssignmentAsync()
+        [DataRow(DisplayName = "Test Method B - Create Role Assignment Async")]
+        public async Task TestMethod_B_CreateRoleAssignmentAsync()
         {
             DigitalTwinsDescriptionResource digitalTwinsDescriptionResource = await _digitalTwinsResourceManager
                 .GetDigitalTwinsDescriptionResourceAsync(_digitalTwinsResourceName);
@@ -39,15 +39,15 @@ namespace Derby.DigitalTwins.MSTest
             Assert.AreEqual(roleAssignmentData.RoleDefinitionId, authorizationRoleDefinitionData.Id);
         }
         [TestMethod]
-        [DataRow(DisplayName = "Test Method 3 - Check If Digital Twins Description Exists Async")]
-        public async Task TestMethod_3_CheckIfDigitalTwinsDescriptionExistsAsync()
+        [DataRow(DisplayName = "Test Method C - Check If Digital Twins Description Exists Async")]
+        public async Task TestMethod_C_CheckIfDigitalTwinsDescriptionExistsAsync()
         {
             bool digitalTwinsDescriptionExists = await _digitalTwinsResourceManager.CheckIfDigitalTwinsDescriptionExistsAsync(_digitalTwinsResourceName);
             Assert.IsTrue(digitalTwinsDescriptionExists);
         }
         [TestMethod]
-        [DataRow(DisplayName = "Test Method 4 - Get Digital Twins Description Resource Async")]
-        public async Task TestMethod_4_GetDigitalTwinsDescriptionResourceAsync()
+        [DataRow(DisplayName = "Test Method D - Get Digital Twins Description Resource Async")]
+        public async Task TestMethod_D_GetDigitalTwinsDescriptionResourceAsync()
         {
             DigitalTwinsDescriptionResource digitalTwinsDescriptionResource = await _digitalTwinsResourceManager.GetDigitalTwinsDescriptionResourceAsync(_digitalTwinsResourceName);
             Assert.IsNotNull(digitalTwinsDescriptionResource);
@@ -55,46 +55,42 @@ namespace Derby.DigitalTwins.MSTest
         }
 
         [TestMethod]
-        [DataRow(DisplayName = "Test Method 5 - Get Digital Twins Description Collection Async")]
-        public async Task TestMethod_5_GetDigitalTwinsDescriptionCollectionAsync()
+        [DataRow(DisplayName = "Test Method E - Get Digital Twins Description Collection Async")]
+        public async Task TestMethod_E_GetDigitalTwinsDescriptionCollectionAsync()
         {
             DigitalTwinsDescriptionCollection digitalTwinsDescriptionCollection = await _digitalTwinsResourceManager.GetDigitalTwinsDescriptionCollectionAsync();
             Assert.IsNotNull(digitalTwinsDescriptionCollection);
             Assert.IsTrue(digitalTwinsDescriptionCollection.Count() > 0);
         }
         [TestMethod]
-        [DataRow(DisplayName = "Test Method 6 - Get Role Assignment Data List Async")]
-        public async Task TestMethod_6_GetRoleAssignmentListAsync()
+        [DataRow(DisplayName = "Test Method F - Get Role Assignment Data List Async")]
+        public async Task TestMethod_F_GetRoleAssignmentListAsync()
         {
             DigitalTwinsDescriptionResource digitalTwinsDescriptionResource = await _digitalTwinsResourceManager.GetDigitalTwinsDescriptionResourceAsync(_digitalTwinsResourceName);
             List<RoleAssignmentData> roleAssignmentDataList = await _authorizationResourceManager.GetRoleAssignmentDataListAsync(resourceId: digitalTwinsDescriptionResource.Data.Id);
             Assert.IsTrue(roleAssignmentDataList.Count() > 0);
         }
-        [Ignore]
         [TestMethod]
-        [DataRow(DisplayName = "Test Method 7 - Get Role Assignment Async")]
-        public async Task TestMethod_7_GetRoleAssignmentAsync()
+        [DataRow(DisplayName = "Test Method G - Get Role Assignment Async")]
+        public async Task TestMethod_G_GetRoleAssignmentAsync()
         {
             DigitalTwinsDescriptionResource digitalTwinsDescriptionResource = await _digitalTwinsResourceManager.GetDigitalTwinsDescriptionResourceAsync(_digitalTwinsResourceName);
-            RoleAssignmentData roleAssignmentData = await _authorizationResourceManager.GetRoleAssignmentAsync(resourceId: digitalTwinsDescriptionResource.Data.Id, name: "Azure Digital Twins Data Owner");
+            RoleAssignmentData roleAssignmentData = await _authorizationResourceManager.GetRoleAssignmentDataAsync(resourceId: digitalTwinsDescriptionResource.Data.Id, name: "Azure Digital Twins Data Owner");
             Assert.IsNotNull(roleAssignmentData);
         }
-        [Ignore]
         [TestMethod]
-        [DataRow(DisplayName = "Test Method 8 - Delete Role Assignment Async")]
-        public async Task TestMethod_8_DeleteRoleAssignmentAsync()
+        [DataRow(DisplayName = "Test Method H - Delete Role Assignment Async")]
+        public async Task TestMethod_H_DeleteRoleAssignmentAsync()
         {
             DigitalTwinsDescriptionResource digitalTwinsDescriptionResource = await _digitalTwinsResourceManager
                 .GetDigitalTwinsDescriptionResourceAsync(_digitalTwinsResourceName);
-            RoleAssignmentData roleAssignmentData = await _authorizationResourceManager
-                .DeleteRoleAssignmentAsync(resourceId: digitalTwinsDescriptionResource.Data.Id, name: "Azure Digital Twins Data Owner");
-            AuthorizationRoleDefinitionData authorizationRoleDefinitionData = await _authorizationResourceManager
-                .GetAuthorizationRoleDefinitionData(resourceId: digitalTwinsDescriptionResource.Data.Id, name: "Azure Digital Twins Data Owner");
-            Assert.AreEqual(roleAssignmentData.RoleDefinitionId, authorizationRoleDefinitionData.Id);
+            bool roleAssignmentDataExists = await _authorizationResourceManager
+                .DeleteRoleAssignmentResourceAsync(resourceId: digitalTwinsDescriptionResource.Data.Id, name: "Azure Digital Twins Data Owner");
+            Assert.IsFalse(roleAssignmentDataExists);
         }
         [TestMethod]
-        [DataRow(DisplayName = "Test Method 9 - Delete Digital Twins Description Resource Async")]
-        public async Task TestMethod_9_DeleteDigitalTwinsDescriptionResourceAsync()
+        [DataRow(DisplayName = "Test Method I - Delete Digital Twins Description Resource Async")]
+        public async Task TestMethod_I_DeleteDigitalTwinsDescriptionResourceAsync()
         {
             bool resourceGroupCollectionExists = await _digitalTwinsResourceManager.DeleteDigitalTwinsDescriptionResourceAsync(_digitalTwinsResourceName);
             Assert.IsFalse(resourceGroupCollectionExists);

@@ -4,6 +4,7 @@ using Azure.ResourceManager.Authorization;
 using Azure.Core;
 using Azure.ResourceManager.Authorization.Models;
 using Azure;
+using System.Collections.Generic;
 
 namespace Derby.Authorization.ClassLibrary
 {
@@ -76,32 +77,32 @@ namespace Derby.Authorization.ClassLibrary
             Console.WriteLine($"Id: {roleAssignmentData.Id} Scope: {roleAssignmentData.Scope} Display Name: {roleAssignmentData.Name}");
             return roleAssignmentData;
         }
-        public async Task<RoleAssignmentData> GetRoleAssignmentAsync(string resourceId, string name)
+        public async Task<RoleAssignmentData> GetRoleAssignmentDataAsync(string resourceId, string name)
         {
             Console.WriteLine($"Get Role Assignment Async");
             DefaultAzureCredential defaultAzureCredential = new DefaultAzureCredential(new DefaultAzureCredentialOptions() { TenantId = _tenentId });
             ArmClient armClient = new ArmClient(defaultAzureCredential);
             AuthorizationRoleDefinitionData authorizationRoleDefinitionData = await GetAuthorizationRoleDefinitionData(resourceId: resourceId, name: name);
-            ResourceIdentifier resourceIdentifier = RoleAssignmentResource.CreateResourceIdentifier(resourceId, "7e378bdc-84ac-4202-bd90-90b9392e6bfe");
-            RoleAssignmentResource roleAssignmentResource = armClient.GetRoleAssignmentResource(resourceIdentifier);
-            RoleAssignmentResource roleAssignmentResource2 = await roleAssignmentResource.GetAsync();
-            RoleAssignmentData roleAssignmentData = roleAssignmentResource2.Data;
+            List<RoleAssignmentData> roleAssignmentDataList = await GetRoleAssignmentDataListAsync(resourceId);
+            RoleAssignmentData roleAssignmentData = roleAssignmentDataList.Where(roleAssignmentData => roleAssignmentData.RoleDefinitionId.Name.Equals(authorizationRoleDefinitionData.Name)).First();
             Console.WriteLine($"Id: {roleAssignmentData.Id} Scope: {roleAssignmentData.Scope} Display Name: {roleAssignmentData.Name}");
             return roleAssignmentData;
         }
-        public async Task<RoleAssignmentData> DeleteRoleAssignmentAsync(string resourceId, string name)
+        public async Task<bool> DeleteRoleAssignmentResourceAsync(string resourceId, string name)
         {
             Console.WriteLine($"Deleting Role Assignment Async");
             DefaultAzureCredential defaultAzureCredential = new DefaultAzureCredential(new DefaultAzureCredentialOptions() { TenantId = _tenentId });
             ArmClient armClient = new ArmClient(defaultAzureCredential);
             AuthorizationRoleDefinitionData authorizationRoleDefinitionData = await GetAuthorizationRoleDefinitionData(resourceId: resourceId, name: name);
-            ResourceIdentifier resourceIdentifier = RoleAssignmentResource.CreateResourceIdentifier(resourceId, "7e378bdc-84ac-4202-bd90-90b9392e6bfe");
+            List<RoleAssignmentData> roleAssignmentDataList = await GetRoleAssignmentDataListAsync(resourceId);
+            RoleAssignmentData roleAssignmentData = roleAssignmentDataList.Where(roleAssignmentData => roleAssignmentData.RoleDefinitionId.Name.Equals(authorizationRoleDefinitionData.Name)).First();
+            ResourceIdentifier resourceIdentifier = RoleAssignmentResource.CreateResourceIdentifier(resourceId, roleAssignmentData.Name);
             RoleAssignmentResource roleAssignmentResource = armClient.GetRoleAssignmentResource(resourceIdentifier);
-            ArmOperation<RoleAssignmentResource> armOperationRoleAssignmentResource = await roleAssignmentResource.DeleteAsync(WaitUntil.Completed);
-            RoleAssignmentResource roleAssignmentResource2 = armOperationRoleAssignmentResource.Value;
-            RoleAssignmentData roleAssignmentData = roleAssignmentResource2.Data;
-            Console.WriteLine($"Id: {roleAssignmentData.Id} Scope: {roleAssignmentData.Scope} Display Name: {roleAssignmentData.Name}");
-            return roleAssignmentData;
+            await roleAssignmentResource.DeleteAsync(WaitUntil.Completed);
+            List<RoleAssignmentData> roleAssignmentDataList2 = await GetRoleAssignmentDataListAsync(resourceId);
+            bool roleAssignmentDataExists = roleAssignmentDataList2.Exists(roleAssignmentData2 => roleAssignmentData2.Name.Equals(roleAssignmentData.Name));
+            Console.WriteLine($"Exists: {roleAssignmentDataExists}");
+            return roleAssignmentDataExists;
         }
     }
 }
