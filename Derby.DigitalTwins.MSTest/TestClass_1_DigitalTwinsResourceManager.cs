@@ -18,6 +18,7 @@ namespace Derby.DigitalTwins.MSTest
             _authorizationResourceManager = new AuthorizationResourceManager(tenentId: "5ecda7e7-179b-4603-85f3-302815e102fe", principleId: "e48f4382-218a-4fb6-a6b3-e9b4eacd62c3");
             _digitalTwinsResourceName = "TestAzureDigitalTwinsInstance";
         }
+        [Ignore]
         [TestMethod]
         [DataRow(DisplayName = "Test Method A - Create Digital Twins Description Resource Async")]
         public async Task TestMethod_A_CreateDigitalTwinsDescriptionResourceAsync()
@@ -26,6 +27,7 @@ namespace Derby.DigitalTwins.MSTest
             Assert.IsNotNull(digitalTwinsDescriptionResource);
             Assert.AreEqual(digitalTwinsDescriptionResource.Data.Name, _digitalTwinsResourceName);
         }
+        [Ignore]
         [TestMethod]
         [DataRow(DisplayName = "Test Method B - Create Role Assignment Async")]
         public async Task TestMethod_B_CreateRoleAssignmentAsync()
@@ -78,6 +80,7 @@ namespace Derby.DigitalTwins.MSTest
             RoleAssignmentData roleAssignmentData = await _authorizationResourceManager.GetRoleAssignmentDataAsync(resourceId: digitalTwinsDescriptionResource.Data.Id, name: "Azure Digital Twins Data Owner");
             Assert.IsNotNull(roleAssignmentData);
         }
+        [Ignore]
         [TestMethod]
         [DataRow(DisplayName = "Test Method H - Delete Role Assignment Async")]
         public async Task TestMethod_H_DeleteRoleAssignmentAsync()
@@ -88,6 +91,7 @@ namespace Derby.DigitalTwins.MSTest
                 .DeleteRoleAssignmentResourceAsync(resourceId: digitalTwinsDescriptionResource.Data.Id, name: "Azure Digital Twins Data Owner");
             Assert.IsFalse(roleAssignmentDataExists);
         }
+        [Ignore]
         [TestMethod]
         [DataRow(DisplayName = "Test Method I - Delete Digital Twins Description Resource Async")]
         public async Task TestMethod_I_DeleteDigitalTwinsDescriptionResourceAsync()

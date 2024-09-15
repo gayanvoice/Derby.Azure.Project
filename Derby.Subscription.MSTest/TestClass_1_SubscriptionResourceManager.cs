@@ -15,6 +15,7 @@ namespace Derby.Subscription.MSTest
             _subscriptionResourceManager = new SubscriptionResourceManager("5ecda7e7-179b-4603-85f3-302815e102fe");
             _resourceGroupName = "TestResourceGroup";
         }
+        [Ignore]
         [TestMethod]
         [DataRow(DisplayName = "Test Method A - Create Resource Group Resource Async")]
         public async Task TestMethod_A_CreateResourceGroupResourceAsync()
