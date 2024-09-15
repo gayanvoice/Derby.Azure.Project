@@ -17,10 +17,9 @@ namespace Derby.DigitalTwins.ClassLibrary
             _digitalTwinsResourceManager = new DigitalTwinsResourceManager(tenentId: "5ecda7e7-179b-4603-85f3-302815e102fe", resourceGroupResourceName: "TestResourceGroup");
             _digitalTwinsResourceName = "TestAzureDigitalTwinsInstance";
         }
-        public async Task<DigitalTwinsModelData> UploadDtdlModel(string fileUrl)
+        public async Task<DigitalTwinsModelData> UploadDtdlModel(string dtdlModelFile)
         {
             DigitalTwinsClient digitalTwinsClient = await _digitalTwinsResourceManager.GetDigitalTwinsClientAsync(_digitalTwinsResourceName);
-            string dtdlModelFile = await new HttpClient().GetStringAsync(fileUrl);
             Response<DigitalTwinsModelData[]>  digitalTwinsModelDataArrayResponse = await digitalTwinsClient.CreateModelsAsync(new[] { dtdlModelFile });
             DigitalTwinsModelData[] digitalTwinsModelDataArray = digitalTwinsModelDataArrayResponse.Value;
             foreach (DigitalTwinsModelData digitalTwinsModelData in digitalTwinsModelDataArray)
@@ -30,14 +29,20 @@ namespace Derby.DigitalTwins.ClassLibrary
             return digitalTwinsModelDataArray.First();
         }
 
-        public void GetModel()
+        public async Task<DigitalTwinsModelData> GetDtdlModel(string modelId)
         {
-            throw new NotImplementedException();
+            DigitalTwinsClient digitalTwinsClient = await _digitalTwinsResourceManager.GetDigitalTwinsClientAsync(_digitalTwinsResourceName);
+            Response<DigitalTwinsModelData> digitalTwinsModelDataResponse = await digitalTwinsClient.GetModelAsync(modelId);
+            DigitalTwinsModelData digitalTwinsModelData = digitalTwinsModelDataResponse.Value;
+            Console.WriteLine($"Id: {digitalTwinsModelData.Id}");
+            return digitalTwinsModelData;
         }
-
-        public void DeleteModel()
+        public async Task<Response> DeleteDtdlModel(string modelId)
         {
-            throw new NotImplementedException();
+            DigitalTwinsClient digitalTwinsClient = await _digitalTwinsResourceManager.GetDigitalTwinsClientAsync(_digitalTwinsResourceName);
+            Response response = await digitalTwinsClient.DeleteModelAsync(modelId);
+            Console.WriteLine($"Status: {response.Status}");
+            return response;
         }
     }
 }

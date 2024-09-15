@@ -1,9 +1,0 @@
-{
-  "@context": "dtmi:dtdl:context;2",
-  "@id": "dtmi:dtdl:context:parentModel;1",
-  "@type": "Interface",
-  "comment": "you can add primitive or complex data types into \"contents\": []",
-  "description": "the parent model in inheritence",
-  "displayName": "Parent Model",
-  "contents": []
-}

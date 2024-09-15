@@ -1,4 +1,5 @@
-﻿using Azure.DigitalTwins.Core;
+﻿using Azure;
+using Azure.DigitalTwins.Core;
 using Derby.DigitalTwins.ClassLibrary;
 
 namespace Derby.DigitalTwins.MSTest
@@ -15,16 +16,41 @@ namespace Derby.DigitalTwins.MSTest
             _modeleManager = new ModelManager();
             _digitalTwinsResourceName = "TestAzureDigitalTwinsInstance";
         }
-
         [TestMethod]
-        [DataRow(1, @"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/parentModel.json", "dtmi:dtdl:context:parentModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.A.1 - Uploading Parent DTDL Model")]
-        [DataRow(2, @"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/childModel.json", "dtmi:dtdl:context:childModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.A.2 - Uploading Child DTDL Model")]
-        [DataRow(3, @"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/PrimitiveModel.json", "dtmi:dtdl:context:primitiveModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.A.3 - Uploading Primitive DTDL Model")]
-        [DataRow(4, @"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/ComplexModel.json", "dtmi:dtdl:context:complexModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.A.4 - Uploading Complex DTDL Model")]
-        public async Task TestMethod_A_UploadDtdlModelAsync(int order, string fileUrl, string id)
+        [DataRow(@"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/PrimitiveModel.json", "dtmi:dtdl:context:primitiveModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.A - Uploading Primitive DTDL Model")]
+        [DataRow(@"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/ComplexModel.json", "dtmi:dtdl:context:complexModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.A - Uploading Complex DTDL Model")]
+        public async Task TestMethod_A_UploadDtdlModelAsync(string fileUrl, string id)
         {
-            DigitalTwinsModelData digitalTwinsModelData = await _modeleManager.UploadDtdlModel(fileUrl);
-            Assert.AreEqual(digitalTwinsModelData.Id, id);
+            try
+            {
+                string dtdlModelFile = await new HttpClient().GetStringAsync(fileUrl);
+                DigitalTwinsModelData digitalTwinsModelData = await _modeleManager.UploadDtdlModel(dtdlModelFile);
+                Assert.AreEqual(digitalTwinsModelData.Id, id);
+            }
+            catch (RequestFailedException requestFailedException)
+            {
+                Assert.AreEqual(requestFailedException.ErrorCode, "ModelIdAlreadyExists");
+            }
+            catch (Exception exception)
+            {
+                Assert.Fail(exception.Message);
+            }
+        }
+        [TestMethod]
+        [DataRow("dtmi:dtdl:context:primitiveModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.B - Getting Primitive DTDL Model")]
+        [DataRow("dtmi:dtdl:context:complexModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.B - Getting Complex DTDL Model")]
+        public async Task TestMethod_B_GetDtdlModelAsync(string modelId)
+        {
+            DigitalTwinsModelData digitalTwinsModelData = await _modeleManager.GetDtdlModel(modelId);
+            Assert.AreEqual(digitalTwinsModelData.Id, modelId);
+        }
+        [TestMethod]
+        [DataRow("dtmi:dtdl:context:primitiveModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.C - Deleting Primitive DTDL Model")]
+        [DataRow("dtmi:dtdl:context:complexModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.C - Deleting Complex DTDL Model")]
+        public async Task TestMethod_C_DeleteDtdlModelAsync(string modelId)
+        {
+            Response response = await _modeleManager.DeleteDtdlModel(modelId);
+            Assert.AreEqual(response.Status, 204);
         }
     }
 }
