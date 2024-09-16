@@ -21,7 +21,7 @@ namespace Derby.IotHub.MSTest
         }
         [Ignore]
         [TestMethod]
-        [DataRow(DisplayName = "Derby.IotHub.MSTest.A.A - Check If IoT Hub Name Availability Async")]
+        [DataRow(DisplayName = "Checking If IoT Hub Name Availability Async")]
         public async Task TestMethod_A_CheckIfIotHuNameAvailabilityAsync()
         {
             IotHubNameAvailabilityResponse IotHubNameAvailabilityResponse = await _iotHubResourceManager.CheckIfIotHubNameAvailabilityAsync(_iotHubResourceName);
@@ -29,7 +29,7 @@ namespace Derby.IotHub.MSTest
         }
         [Ignore]
         [TestMethod]
-        [DataRow(DisplayName = "Derby.IotHub.MSTest.A.B - Create IoT Hub Description Resource Async")]
+        [DataRow(DisplayName = "Creating IoT Hub Description Resource Async")]
         public async Task TestMethod_B_CreateDigitalTwinsDescriptionResourceAsync()
         {
             IotHubDescriptionResource iotHubDescriptionResource = await _iotHubResourceManager.CreateIotHubDescriptionResourceAsync(_iotHubResourceName);
@@ -38,7 +38,7 @@ namespace Derby.IotHub.MSTest
         }
         [Ignore]
         [TestMethod]
-        [DataRow(DisplayName = "Derby.IotHub.MSTest.A.C - Create Role Assignment Async")]
+        [DataRow(DisplayName = "Creating Role Assignment Async")]
         public async Task TestMethod_C_CreateRoleAssignmentAsync()
         {
             IotHubDescriptionResource iotHubDescriptionResource = await _iotHubResourceManager.GetIotHubDescriptionResourceAsync(_iotHubResourceName);
@@ -49,7 +49,7 @@ namespace Derby.IotHub.MSTest
             Assert.AreEqual(roleAssignmentData.RoleDefinitionId, authorizationRoleDefinitionData.Id);
         }
         [TestMethod]
-        [DataRow(DisplayName = "Derby.IotHub.MSTest.A.D - Get IoT Hub Description Collection Async")]
+        [DataRow(DisplayName = "Getting IoT Hub Description Collection Async")]
         public async Task TestMethod_D_GetIotHubDescriptionCollectionAsync()
         {
             IotHubDescriptionCollection iotHubDescriptionCollection = await _iotHubResourceManager.GetIotHubDescriptionCollectionAsync();
@@ -57,14 +57,14 @@ namespace Derby.IotHub.MSTest
             Assert.IsTrue(iotHubDescriptionCollection.Count() > 0);
         }
         [TestMethod]
-        [DataRow(DisplayName = "Derby.IotHub.MSTest.A.E - Check If IoT Hub Description Exists Async")]
+        [DataRow(DisplayName = "Checking If IoT Hub Description Exists Async")]
         public async Task TestMethod_E_CheckIfIotHubDescriptionExistsAsync()
         {
             bool iotHubDescriptionExists = await _iotHubResourceManager.CheckIfIotHubDescriptionExistsAsync(_iotHubResourceName);
             Assert.IsTrue(iotHubDescriptionExists);
         }
         [TestMethod]
-        [DataRow(DisplayName = "Derby.IotHub.MSTest.A.F - Get IoT Hub Description Resource Async")]
+        [DataRow(DisplayName = "Getting IoT Hub Description Resource Async")]
         public async Task TestMethod_F_GetIotHubDescriptionResourceAsync()
         {
             IotHubDescriptionResource iotHubDescriptionResource = await _iotHubResourceManager.GetIotHubDescriptionResourceAsync(_iotHubResourceName);
@@ -72,7 +72,7 @@ namespace Derby.IotHub.MSTest
             Assert.AreEqual(_iotHubResourceName, iotHubDescriptionResource.Data.Name);
         }
         [TestMethod]
-        [DataRow(DisplayName = "Derby.IotHub.MSTest.A.G - Get Role Assignment Data List Async")]
+        [DataRow(DisplayName = "Getting Role Assignment Data List Async")]
         public async Task TestMethod_G_GetRoleAssignmentListAsync()
         {
             IotHubDescriptionResource iotHubDescriptionResource = await _iotHubResourceManager.GetIotHubDescriptionResourceAsync(_iotHubResourceName);
@@ -80,7 +80,7 @@ namespace Derby.IotHub.MSTest
             Assert.IsTrue(roleAssignmentDataList.Count() > 0);
         }
         [TestMethod]
-        [DataRow(DisplayName = "Derby.IotHub.MSTest.A.H - Get Role Assignment Async")]
+        [DataRow(DisplayName = "Getting Role Assignment Async")]
         public async Task TestMethod_H_GetRoleAssignmentDataAsync()
         {
             IotHubDescriptionResource iotHubDescriptionResource = await _iotHubResourceManager.GetIotHubDescriptionResourceAsync(_iotHubResourceName);
@@ -89,7 +89,7 @@ namespace Derby.IotHub.MSTest
         }
         [Ignore]
         [TestMethod]
-        [DataRow(DisplayName = "Derby.IotHub.MSTest.A.I - Delete Role Assignment Async")]
+        [DataRow(DisplayName = "Deleting Role Assignment Async")]
         public async Task TestMethod_I_DeleteRoleAssignmentAsync()
         {
             IotHubDescriptionResource iotHubDescriptionResource = await _iotHubResourceManager.GetIotHubDescriptionResourceAsync(_iotHubResourceName);
@@ -99,7 +99,7 @@ namespace Derby.IotHub.MSTest
         }
         [Ignore]
         [TestMethod]
-        [DataRow(DisplayName = "Derby.IotHub.MSTest.A.J - Delete Digital Twins Description Resource Async")]
+        [DataRow(DisplayName = "Deleting Digital Twins Description Resource Async")]
         public async Task TestMethod_J_DeleteDigitalTwinsDescriptionResourceAsync()
         {
             bool resourceGroupCollectionExists = await _iotHubResourceManager.DeleteDigitalTwinsDescriptionResourceAsync(_iotHubResourceName);

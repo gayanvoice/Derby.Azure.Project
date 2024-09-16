@@ -17,7 +17,7 @@ namespace Derby.Subscription.MSTest
         }
         [Ignore]
         [TestMethod]
-        [DataRow(DisplayName = "Derby.Subscription.MSTest.A.A - Create Resource Group Resource Async")]
+        [DataRow(DisplayName = "Creating Resource Group Resource Async")]
         public async Task TestMethod_A_CreateResourceGroupResourceAsync()
         {
             ResourceGroupResource resourceGroupResource = await _subscriptionResourceManager.CreateResourceGroupResourceAsync(_resourceGroupName);
@@ -25,14 +25,14 @@ namespace Derby.Subscription.MSTest
             Assert.AreEqual(_resourceGroupName, resourceGroupResource.Data.Name);
         }
         [TestMethod]
-        [DataRow(DisplayName = "Derby.Subscription.MSTest.A.B - Check If Resource Group Collection Exists Async")]
+        [DataRow(DisplayName = "Checking If Resource Group Collection Exists Async")]
         public async Task TestMethod_B_CheckIfResourceGroupCollectionExistsAsync()
         {
             bool resourceGroupCollectionExists = await _subscriptionResourceManager.CheckIfResourceGroupCollectionExistsAsync(_resourceGroupName);
             Assert.IsTrue(resourceGroupCollectionExists);
         }
         [TestMethod]
-        [DataRow(DisplayName = "Derby.Subscription.MSTest.A.C - Get Resource Group Resource Async")]
+        [DataRow(DisplayName = "Getting Resource Group Resource Async")]
         public async Task TestMethod_C_GetResourceGroupResourceAsync()
         {
             ResourceGroupResource resourceGroupResource = await _subscriptionResourceManager.GetResourceGroupResourceAsync(_resourceGroupName);
@@ -40,7 +40,7 @@ namespace Derby.Subscription.MSTest
             Assert.AreEqual(_resourceGroupName, resourceGroupResource.Data.Name);
         }
         [TestMethod]
-        [DataRow(DisplayName = "Derby.Subscription.MSTest.A.D - Get Resource Group Collection Async")]
+        [DataRow(DisplayName = "Getting Resource Group Collection Async")]
         public async Task TestMethod_D_GetResourceGroupCollectionAsync()
         {
             ResourceGroupCollection resourceGroupCollection = await _subscriptionResourceManager.GetResourceGroupCollectionAsync();
@@ -49,7 +49,7 @@ namespace Derby.Subscription.MSTest
         }
         [Ignore]
         [TestMethod]
-        [DataRow(DisplayName = "Derby.Subscription.MSTest.A.E - Delete Resource Group Collection Async")]
+        [DataRow(DisplayName = "Deleting Resource Group Collection Async")]
         public async Task TestMethod_E_CreateResourceGroupResource()
         {
             bool resourceGroupCollectionExists = await _subscriptionResourceManager.DeleteResourceGroupResourceAsync(_resourceGroupName);

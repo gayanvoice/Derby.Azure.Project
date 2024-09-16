@@ -4,7 +4,6 @@ using Derby.DigitalTwins.ClassLibrary;
 
 namespace Derby.DigitalTwins.MSTest
 {
-
     [TestClass]
     public class TestClass_B_ModelManager
     {
@@ -17,10 +16,10 @@ namespace Derby.DigitalTwins.MSTest
             _digitalTwinsResourceName = "TestAzureDigitalTwinsInstance";
         }
         [TestMethod]
-        [DataRow(@"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/PrimitiveModel.json", "dtmi:dtdl:context:primitiveModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.A - Uploading Primitive DTDL Model")]
-        [DataRow(@"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/ComplexModel.json", "dtmi:dtdl:context:complexModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.A - Uploading Complex DTDL Model")]
-        [DataRow(@"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/Factory.json", "dtmi:dtdl:context:Factory;1", DisplayName = "Derby.DigitalTwins.MSTest.B.A - Uploading Factory DTDL Model")]
-        [DataRow(@"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/Robot.json", "dtmi:dtdl:context:Robot;1", DisplayName = "Derby.DigitalTwins.MSTest.B.A - Uploading Robot DTDL Model")]
+        [DataRow(@"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/PrimitiveModel.json", "dtmi:dtdl:context:primitiveModel;1", DisplayName = "Uploading Primitive DTDL Model")]
+        [DataRow(@"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/ComplexModel.json", "dtmi:dtdl:context:complexModel;1", DisplayName = "Uploading Complex DTDL Model")]
+        [DataRow(@"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/Factory.json", "dtmi:dtdl:context:Factory;1", DisplayName = "Uploading Factory DTDL Model")]
+        [DataRow(@"https://raw.githubusercontent.com/gayanvoice/Derby.Azure.Project/master/Derby.DigitalTwins.MSTest/Static/Robot.json", "dtmi:dtdl:context:Robot;1", DisplayName = "Uploading Robot DTDL Model")]
         public async Task TestMethod_A_UploadDtdlModelAsync(string fileUrl, string id)
         {
             try
@@ -39,10 +38,10 @@ namespace Derby.DigitalTwins.MSTest
             }
         }
         [TestMethod]
-        [DataRow("dtmi:dtdl:context:primitiveModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.B - Getting Primitive DTDL Model")]
-        [DataRow("dtmi:dtdl:context:complexModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.B - Getting Complex DTDL Model")]
-        [DataRow("dtmi:dtdl:context:Factory;1", DisplayName = "Derby.DigitalTwins.MSTest.B.B - Getting Factory DTDL Model")]
-        [DataRow("dtmi:dtdl:context:Robot;1", DisplayName = "Derby.DigitalTwins.MSTest.B.B - Getting Robot DTDL Model")]
+        [DataRow("dtmi:dtdl:context:primitiveModel;1", DisplayName = "Getting Primitive DTDL Model")]
+        [DataRow("dtmi:dtdl:context:complexModel;1", DisplayName = "Getting Complex DTDL Model")]
+        [DataRow("dtmi:dtdl:context:Factory;1", DisplayName = "Getting Factory DTDL Model")]
+        [DataRow("dtmi:dtdl:context:Robot;1", DisplayName = "Getting Robot DTDL Model")]
         public async Task TestMethod_B_GetDtdlModelAsync(string modelId)
         {
             DigitalTwinsModelData digitalTwinsModelData = await _modelManager.GetDtdlModel(modelId);
@@ -50,10 +49,10 @@ namespace Derby.DigitalTwins.MSTest
         }
         [Ignore]
         [TestMethod]
-        [DataRow("dtmi:dtdl:context:primitiveModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.D - Deleting Primitive DTDL Model")]
-        [DataRow("dtmi:dtdl:context:complexModel;1", DisplayName = "Derby.DigitalTwins.MSTest.B.D - Deleting Complex DTDL Model")]
-        [DataRow("dtmi:dtdl:context:Factory;1", DisplayName = "Derby.DigitalTwins.MSTest.B.D - Deleting Factory DTDL Model")]
-        [DataRow("dtmi:dtdl:context:Robot;1", DisplayName = "Derby.DigitalTwins.MSTest.B.D - Deleting Robot DTDL Model")]
+        [DataRow("dtmi:dtdl:context:primitiveModel;1", DisplayName = "Deleting Primitive DTDL Model")]
+        [DataRow("dtmi:dtdl:context:complexModel;1", DisplayName = "Deleting Complex DTDL Model")]
+        [DataRow("dtmi:dtdl:context:Factory;1", DisplayName = "Deleting Factory DTDL Model")]
+        [DataRow("dtmi:dtdl:context:Robot;1", DisplayName = "Deleting Robot DTDL Model")]
         public async Task TestMethod_D_DeleteDtdlModelAsync(string modelId)
         {
             Response response = await _modelManager.DeleteDtdlModel(modelId);

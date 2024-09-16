@@ -1,12 +1,9 @@
-﻿using Azure;
-using Azure.DigitalTwins.Core;
+﻿using Azure.DigitalTwins.Core;
 using Derby.DigitalTwins.ClassLibrary;
-using Newtonsoft.Json;
 using System.Text;
 
 namespace Derby.DigitalTwins.MSTest
 {
-
     [TestClass]
     public class TestClass_B_TwinManager
     {
@@ -116,7 +113,7 @@ namespace Derby.DigitalTwins.MSTest
             int seconds = random.Next(0, 60);
             return $"P{years}Y{months}M{days}DT{hours}H{minutes}M{seconds}S";
         }
-        public static string GenerateRandomUTF8String(int length)
+        private static string GenerateRandomUTF8String(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" +
                                "αβγδεζηθικλμνξοπρστυφχψω" +
