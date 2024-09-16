@@ -1,5 +1,6 @@
 ﻿using Azure;
 using Azure.DigitalTwins.Core;
+using System;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -16,25 +17,25 @@ namespace Derby.DigitalTwins.ClassLibrary
         }
         public async Task<BasicDigitalTwin> CreateBasicDigitalTwinAsync(string twinId, BasicDigitalTwin basicDigitalTwin)
         {
-            Console.WriteLine($"Creating Basic Digital Twin Async");
+            Console.WriteLine($"Creating Basic Digital Twin");
             DigitalTwinsClient digitalTwinsClient = await _digitalTwinsResourceManager.GetDigitalTwinsClientAsync(_digitalTwinsResourceName);
             Response<BasicDigitalTwin> basicDigitalTwinResponse = await digitalTwinsClient.CreateOrReplaceDigitalTwinAsync<BasicDigitalTwin>(twinId, basicDigitalTwin);
             BasicDigitalTwin basicDigitalTwin2 = basicDigitalTwinResponse.Value;
-            Console.WriteLine($"ModelId: {basicDigitalTwin2.Metadata.ModelId} Id: {basicDigitalTwin2.Id}");
+            Console.WriteLine($"Model Id: {basicDigitalTwin2.Metadata.ModelId} Id: {basicDigitalTwin2.Id}");
             return basicDigitalTwin2;
         }
         public async Task<BasicDigitalTwin> GetBasicDigitalTwinAsync(string twinId)
         {
-            Console.WriteLine($"Getting Basic Digital Twin Async");
+            Console.WriteLine($"Getting Basic Digital Twin");
             DigitalTwinsClient digitalTwinsClient = await _digitalTwinsResourceManager.GetDigitalTwinsClientAsync(_digitalTwinsResourceName);
             Response<BasicDigitalTwin> basicDigitalTwinResponse = await digitalTwinsClient.GetDigitalTwinAsync<BasicDigitalTwin>(twinId);
             BasicDigitalTwin basicDigitalTwin = basicDigitalTwinResponse.Value;
-            Console.WriteLine($"ModelId: {basicDigitalTwin.Metadata.ModelId}  Id: {basicDigitalTwin.Id}");
+            Console.WriteLine($"Model Id: {basicDigitalTwin.Metadata.ModelId}  Id: {basicDigitalTwin.Id}");
             return basicDigitalTwin;
         }
         public async Task<Dictionary<string, object>> GetContentDictionaryAsync(string twinId)
         {
-            Console.WriteLine($"Getting Basic Digital Twin Async");
+            Console.WriteLine($"Getting Basic Digital Twin");
             BasicDigitalTwin basicDigitalTwin = await GetBasicDigitalTwinAsync(twinId);
             Console.WriteLine($"ModelId: {basicDigitalTwin.Metadata.ModelId} Id: {basicDigitalTwin.Id}");
             Dictionary<string, object> contentDictionary = new Dictionary<string, object>();
@@ -55,17 +56,42 @@ namespace Derby.DigitalTwins.ClassLibrary
             }
             return contentDictionary;
         }
-        public void CreateRelationshipAsync(string fromTwinId, string toTwinId)
+
+        public async Task<BasicRelationship> CreateBasicRelationshipAsync(string sourceId, string targetId, string name)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Creating Basic Relationship Twin");
+            DigitalTwinsClient digitalTwinsClient = await _digitalTwinsResourceManager.GetDigitalTwinsClientAsync(_digitalTwinsResourceName);
+            BasicRelationship basicRelationship = new BasicRelationship();
+            basicRelationship.TargetId = targetId;
+            basicRelationship.Name = name;
+            string relationshipId = $"{sourceId}-{name}-{targetId}";
+            Response<BasicRelationship> basicRelationshipResponse = await digitalTwinsClient
+                .CreateOrReplaceRelationshipAsync<BasicRelationship>(digitalTwinId: sourceId, relationshipId:relationshipId, relationship:basicRelationship);
+            BasicRelationship basicRelationship2 = basicRelationshipResponse.Value;
+            Console.WriteLine($"Id: {basicRelationship2.Id} Source Id: {basicRelationship2.SourceId} Target Id: {basicRelationship2.TargetId}");
+            return basicRelationship2;
         }
-        public void GetRelationshipAsync(string relationshipId)
+        public async Task<BasicRelationship> GetBasicRelationshipAsync(string sourceId, string relationshipId)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Getting Basic Relationship Twin");
+            DigitalTwinsClient digitalTwinsClient = await _digitalTwinsResourceManager.GetDigitalTwinsClientAsync(_digitalTwinsResourceName);
+            Response<BasicRelationship> basicRelationshipResponse = await digitalTwinsClient.GetRelationshipAsync<BasicRelationship>(digitalTwinId: sourceId, relationshipId: relationshipId);
+            BasicRelationship basicRelationship = basicRelationshipResponse.Value;
+            Console.WriteLine($"Id: {basicRelationship.Id} Source Id: {basicRelationship.SourceId} Target Id: {basicRelationship.TargetId}");
+            return basicRelationship;
         }
-        public void GetIncomingRelationshipAsync(string twinId)
+        public async Task<List<IncomingRelationship>> GetIncomingRelationshipListAsync(string targetId)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Getting Incoming Basic Relationships Twin");
+            DigitalTwinsClient digitalTwinsClient = await _digitalTwinsResourceManager.GetDigitalTwinsClientAsync(_digitalTwinsResourceName);
+            AsyncPageable<IncomingRelationship> incomingRelationshipAsyncPageable = digitalTwinsClient.GetIncomingRelationshipsAsync(digitalTwinId: targetId);
+            List<IncomingRelationship> incomingRelationshipList = new List<IncomingRelationship>();
+            await foreach (IncomingRelationship incomingRelationship in incomingRelationshipAsyncPageable)
+            {
+                Console.WriteLine($"Relationship Id: {incomingRelationship.RelationshipId} Relationship Name: {incomingRelationship.RelationshipName} Relationship Link: {incomingRelationship.RelationshipLink}");
+                incomingRelationshipList.Add(incomingRelationship);
+            }
+            return incomingRelationshipList;
         }
         public void PublishTelemetryAsync(string twinId)
         {
@@ -79,13 +105,21 @@ namespace Derby.DigitalTwins.ClassLibrary
         {
             throw new NotImplementedException();
         }
-        public void DeleteRelationship(string relationshipId)
+        public async Task<Response> DeleteRelationshipAsync(string sourceId, string relationshipId)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Deleting Basic Digital Twin");
+            DigitalTwinsClient digitalTwinsClient = await _digitalTwinsResourceManager.GetDigitalTwinsClientAsync(_digitalTwinsResourceName);
+            Response response = await digitalTwinsClient.DeleteRelationshipAsync(digitalTwinId: sourceId, relationshipId: relationshipId);
+            Console.WriteLine($"Status: {response.Status}");
+            return response;
         }
-        public void DeleteTwin(string twinId)
+        public async Task<Response> DeleteDigitalTwinAsync(string twinId)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Deleting Basic Digital Twin");
+            DigitalTwinsClient digitalTwinsClient = await _digitalTwinsResourceManager.GetDigitalTwinsClientAsync(_digitalTwinsResourceName);
+            Response response = await digitalTwinsClient.DeleteDigitalTwinAsync(twinId);
+            Console.WriteLine($"Status: {response.Status}");
+            return response;
         }
     }
 }

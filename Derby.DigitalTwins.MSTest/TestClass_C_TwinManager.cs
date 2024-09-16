@@ -1,4 +1,5 @@
-﻿using Azure.DigitalTwins.Core;
+﻿using Azure;
+using Azure.DigitalTwins.Core;
 using Derby.DigitalTwins.ClassLibrary;
 using System.Text;
 using System.Text.Json;
@@ -17,10 +18,11 @@ namespace Derby.DigitalTwins.MSTest
             _digitalTwinsResourceName = "TestAzureDigitalTwinsInstance";
         }
         [TestMethod]
-        [DataRow("dtmi:dtdl:context:primitiveModel;1", "PrimitiveModel", DisplayName = "Creating Primitive Basic Digital Twin Model")]
-        [DataRow("dtmi:dtdl:context:complexModel;1", "ComplexModel", DisplayName = "Creating Complex Basic Digital Twin Model")]
+        [DataRow("dtmi:dtdl:context:primitiveModel;1", "Primitive", DisplayName = "Creating Primitive Basic Digital Twin Model")]
+        [DataRow("dtmi:dtdl:context:complexModel;1", "Complex", DisplayName = "Creating Complex Basic Digital Twin Model")]
         [DataRow("dtmi:dtdl:context:Factory;1", "Factory", DisplayName = "Creating Factory Basic Digital Twin Model")]
-        [DataRow("dtmi:dtdl:context:Robot;1", "Robot", DisplayName = "Creating Robot Basic Digital Twin Model")]
+        [DataRow("dtmi:dtdl:context:Robot;1", "Robot1", DisplayName = "Creating Robot1 Basic Digital Twin Model")]
+        [DataRow("dtmi:dtdl:context:Robot;1", "Robot2", DisplayName = "Creating Robot2 Basic Digital Twin Model")]
         public async Task TestMethod_A_CreateBasicDigitalTwinAsync(string modelId, string twinId)
         {
             switch (modelId)
@@ -135,7 +137,7 @@ namespace Derby.DigitalTwins.MSTest
                 case "dtmi:dtdl:context:complexModel;1":
 
                     int enumValue = 2;
-                    object objectValue = new { Field1 = 12.5, Field2 = 20.5 };
+                    object objectValue = new { Field1 = new Random().NextDouble(), Field2 = new Random().NextDouble() };
                     Dictionary<string, string> mapValue = new Dictionary<string, string>
                     {
                         { "Priority", "High" }
@@ -215,24 +217,75 @@ namespace Derby.DigitalTwins.MSTest
             }
         }
         [TestMethod]
-        [DataRow("PrimitiveModel", DisplayName = "Getting Primitive Basic Digital Twin Model")]
-        [DataRow("ComplexModel", DisplayName = "Getting Complex Basic Digital Twin Model")]
+        [DataRow("Primitive", DisplayName = "Getting Primitive Basic Digital Twin Model")]
+        [DataRow("Complex", DisplayName = "Getting Complex Basic Digital Twin Model")]
         [DataRow("Factory", DisplayName = "Getting Factory Basic Digital Twin Model")]
-        [DataRow("Robot", DisplayName = "Getting Robot Basic Digital Twin Model")]
+        [DataRow("Robot1", DisplayName = "Getting Robot1 Basic Digital Twin Model")]
+        [DataRow("Robot2", DisplayName = "Getting Robot2 Basic Digital Twin Model")]
         public async Task TestMethod_B_GetBasicDigitalTwinAsync(string twinId)
         {
             BasicDigitalTwin basicDigitalTwin = await _twinManager.GetBasicDigitalTwinAsync(twinId);
             Assert.AreEqual(basicDigitalTwin.Id, twinId);
         }
         [TestMethod]
-        [DataRow("PrimitiveModel", 10, DisplayName = "Getting Primitive Content Dictionary Async")]
-        [DataRow("ComplexModel", 3, DisplayName = "Getting Complex Content Dictionary Async")]
-        [DataRow("Factory", 0, DisplayName = "Getting Factory Content Dictionary Async")]
-        [DataRow("Robot", 1, DisplayName = "Getting Robot Content Dictionary Async")]
+        [DataRow("Primitive", 10, DisplayName = "Getting Primitive Content Dictionary")]
+        [DataRow("Complex", 3, DisplayName = "Getting Complex Content Dictionary")]
+        [DataRow("Factory", 0, DisplayName = "Getting Factory Content Dictionary")]
+        [DataRow("Robot1", 1, DisplayName = "Getting Robot1 Content Dictionary")]
+        [DataRow("Robot2", 1, DisplayName = "Getting Robot2 Content Dictionary")]
         public async Task TestMethod_C_GetContentDictionaryAsync(string twinId, int keyCount)
         {
             Dictionary<string, object> contentDictionary = await _twinManager.GetContentDictionaryAsync(twinId);
             Assert.AreEqual(contentDictionary.Count(), keyCount);
+        }
+        [TestMethod]
+        [DataRow("Factory", "Robot1", "has_robot", DisplayName = "Creating Factory to Robot1 Basic Relationship")]
+        [DataRow("Factory", "Robot2", "has_robot", DisplayName = "Creating Factory to Robot2 Basic Relationship")]
+        public async Task TestMethod_D_CreateBasicRelationshipAsync(string sourceId, string targetId, string name)
+        {
+            BasicRelationship basicRelationship = await _twinManager.CreateBasicRelationshipAsync(sourceId, targetId, name);
+            Assert.AreEqual(basicRelationship.Name, name);
+            Assert.AreEqual(basicRelationship.SourceId, sourceId);
+            Assert.AreEqual(basicRelationship.TargetId, targetId);
+        }
+        [TestMethod]
+        [DataRow("Factory", "Robot1", "has_robot", DisplayName = "Getting Factory to Robot1 Basic Relationship")]
+        [DataRow("Factory", "Robot2", "has_robot", DisplayName = "Getting Factory to Robot2 Basic Relationship")]
+        public async Task TestMethod_E_GetBasicRelationshipAsync(string sourceId, string targetId, string name)
+        {
+            string relationshipId = $"{sourceId}-{name}-{targetId}";
+            BasicRelationship basicRelationship = await _twinManager.GetBasicRelationshipAsync(sourceId, relationshipId);
+            Assert.AreEqual(basicRelationship.Name, name);
+            Assert.AreEqual(basicRelationship.SourceId, sourceId);
+            Assert.AreEqual(basicRelationship.TargetId, targetId);
+        }
+        [TestMethod]
+        [DataRow("Robot1", DisplayName = "Getting Robot1 Incoming Relationship List")]
+        [DataRow("Robot2", DisplayName = "Getting Robot2 Incoming Relationship List")]
+        public async Task TestMethod_F_GetIncomingRelationshipListAsync(string targetId)
+        {
+            List<IncomingRelationship> incomingRelationshipList = await _twinManager.GetIncomingRelationshipListAsync(targetId);
+            Assert.AreEqual(incomingRelationshipList.Count(), 1);
+        }
+        [TestMethod]
+        [DataRow("Factory", "Robot1", "has_robot", DisplayName = "Deleting Factory to Robot1 Relationship")]
+        [DataRow("Factory", "Robot2", "has_robot", DisplayName = "Deleting Factory to Robot2 Relationship")]
+        public async Task TestMethod_G_GetBasicRelationshipAsync(string sourceId, string targetId, string name)
+        {
+            string relationshipId = $"{sourceId}-{name}-{targetId}";
+            Response response = await _twinManager.DeleteRelationshipAsync(sourceId, relationshipId);
+            Assert.AreEqual(response.Status, 204);
+        }
+        [TestMethod]
+        [DataRow("Factory", DisplayName = "Deleting Factory Digital Twin")]
+        [DataRow("Robot1", DisplayName = "Deleting Robot1 Digital Twin")]
+        [DataRow("Robot2", DisplayName = "Deleting Robot2 Digital Twin")]
+        [DataRow("Primitive", DisplayName = "Deleting Primitive Digital Twin")]
+        [DataRow("Complex", DisplayName = "Deleting Complex Digital Twin")]
+        public async Task TestMethod_H_DeleteDigitalTwinAsync(string twinId)
+        {
+            Response response = await _twinManager.DeleteDigitalTwinAsync(twinId);
+            Assert.AreEqual(response.Status, 204);
         }
         private string GenerateRandomISO8601Duration()
         {
@@ -247,7 +300,7 @@ namespace Derby.DigitalTwins.MSTest
         }
         private static string GenerateRandomUTF8String(int length)
         {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789αβγδεζηθικλμνξοπρστυφχψω";
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789αβγδεζηθικλμνξοπρστυφχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ";
             StringBuilder stringBuilder = new StringBuilder(length);
             Random random = new Random();
             for (int i = 0; i < length; i++)
