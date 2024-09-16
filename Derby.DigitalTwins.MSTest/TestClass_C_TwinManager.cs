@@ -6,7 +6,7 @@ using System.Text.Json;
 namespace Derby.DigitalTwins.MSTest
 {
     [TestClass]
-    public class TestClass_B_TwinManager
+    public class TestClass_C_TwinManager
     {
         private TwinManager _twinManager;
         public string _digitalTwinsResourceName;
