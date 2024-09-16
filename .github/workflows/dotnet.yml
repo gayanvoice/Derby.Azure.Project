@@ -50,3 +50,5 @@ jobs:
       run: dotnet test --no-build --filter ClassName=Derby.DigitalTwins.MSTest.TestClass_A_DigitalTwinsResourceManager --verbosity normal --logger:"console;verbosity=detailed"
     - name: Test -> Derby.DigitalTwins -> ModelManager
       run: dotnet test --no-build --filter ClassName=Derby.DigitalTwins.MSTest.TestClass_B_ModelManager --verbosity normal --logger:"console;verbosity=detailed"
+    - name: Test -> Derby.DigitalTwins -> TwinManager
+      run: dotnet test --no-build --filter ClassName=Derby.DigitalTwins.MSTest.TestClass_C_TwinManager --verbosity normal --logger:"console;verbosity=detailed"
