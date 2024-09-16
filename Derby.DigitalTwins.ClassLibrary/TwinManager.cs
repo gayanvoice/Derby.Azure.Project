@@ -1,5 +1,7 @@
 ﻿using Azure;
 using Azure.DigitalTwins.Core;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Derby.DigitalTwins.ClassLibrary
 {
@@ -18,12 +20,40 @@ namespace Derby.DigitalTwins.ClassLibrary
             DigitalTwinsClient digitalTwinsClient = await _digitalTwinsResourceManager.GetDigitalTwinsClientAsync(_digitalTwinsResourceName);
             Response<BasicDigitalTwin> basicDigitalTwinResponse = await digitalTwinsClient.CreateOrReplaceDigitalTwinAsync<BasicDigitalTwin>(twinId, basicDigitalTwin);
             BasicDigitalTwin basicDigitalTwin2 = basicDigitalTwinResponse.Value;
-            Console.WriteLine($"Id: {basicDigitalTwin2.Id}");
+            Console.WriteLine($"ModelId: {basicDigitalTwin2.Metadata.ModelId} Id: {basicDigitalTwin2.Id}");
             return basicDigitalTwin2;
         }
-        public void GetTwinAsync(string twinId)
+        public async Task<BasicDigitalTwin> GetBasicDigitalTwinAsync(string twinId)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Getting Basic Digital Twin Async");
+            DigitalTwinsClient digitalTwinsClient = await _digitalTwinsResourceManager.GetDigitalTwinsClientAsync(_digitalTwinsResourceName);
+            Response<BasicDigitalTwin> basicDigitalTwinResponse = await digitalTwinsClient.GetDigitalTwinAsync<BasicDigitalTwin>(twinId);
+            BasicDigitalTwin basicDigitalTwin = basicDigitalTwinResponse.Value;
+            Console.WriteLine($"ModelId: {basicDigitalTwin.Metadata.ModelId}  Id: {basicDigitalTwin.Id}");
+            return basicDigitalTwin;
+        }
+        public async Task<Dictionary<string, object>> GetContentDictionaryAsync(string twinId)
+        {
+            Console.WriteLine($"Getting Basic Digital Twin Async");
+            BasicDigitalTwin basicDigitalTwin = await GetBasicDigitalTwinAsync(twinId);
+            Console.WriteLine($"ModelId: {basicDigitalTwin.Metadata.ModelId} Id: {basicDigitalTwin.Id}");
+            Dictionary<string, object> contentDictionary = new Dictionary<string, object>();
+            ICollection<string> keyCollection = basicDigitalTwin.Contents.Keys;
+            if (keyCollection.Count() > 0)
+            {
+                Console.WriteLine($"Has {keyCollection.Count()} Contents");
+                foreach (string key in keyCollection)
+                {
+                    object value  = basicDigitalTwin.Contents[key];
+                    Console.WriteLine($"Key: {key} Value: {value}");
+                    contentDictionary.Add(key, value);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No Contents");
+            }
+            return contentDictionary;
         }
         public void CreateRelationshipAsync(string fromTwinId, string toTwinId)
         {

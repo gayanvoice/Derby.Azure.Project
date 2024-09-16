@@ -68,7 +68,7 @@ namespace Derby.IoTHub.ClassLibrary
             Console.WriteLine($"Creating Digital Twins Description Resource");
             IotHubDescriptionCollection iotHubDescriptionCollection = await GetIotHubDescriptionCollectionAsync();
 
-            IotHubSkuInfo iotHubSkuInfo = new IotHubSkuInfo(IotHubSku.S1);
+            IotHubSkuInfo iotHubSkuInfo = new IotHubSkuInfo(IotHubSku.F1);
             iotHubSkuInfo.Capacity = 1;
 
             EventHubCompatibleEndpointProperties eventHubCompatibleEndpointProperties = new EventHubCompatibleEndpointProperties();
