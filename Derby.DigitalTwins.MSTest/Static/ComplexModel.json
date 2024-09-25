@@ -15,7 +15,7 @@
       "name": "ArrayTelemetry",
       "schema": {
         "@type": "Array",
-        "elementSchema": "boolean"
+        "elementSchema": "double"
       }
     },
     {
